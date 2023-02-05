@@ -17,7 +17,7 @@ class Occurrences
 {
     public static function getBearer(): string
     {
-        return substr(getallheaders()['Authorization'], 7);
+        return substr(array_change_key_case(getallheaders())['authorization'], 7);
     }
     public static function requiredUrl(): string
     {
@@ -92,7 +92,7 @@ class Utils
 }
 function start()
 {
-    Config::validationBearer() ?: die;
+    Config::validationBearer() ?: die('Incorrect BearerToken');
     $cv = new CryptValidator();
     $hash = mb_strtolower(Occurrences::requiredUrl() ?: 'bcrypt');
     $data = Occurrences::getData();
