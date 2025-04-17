@@ -7,17 +7,21 @@ use Hashers\PBKDF2PasswordHasher;
 
 class CryptValidator
 {
-    public static function bcrypt($password, $encryptedPassword)
+    public static function bcrypt($password, $hash)
     {
-        return password_verify($password, $encryptedPassword);
+        return password_verify($password, $hash);
     }
-    public static function phpass($password, $encryptedPassword)
+    public static function wp_bcrypt($password, $hash)
     {
-        return PHPass::phpass_validation($password, $encryptedPassword);
+        $password_to_verify = base64_encode( hash_hmac( 'sha384', $password, 'wp-sha384', true ) );
+        return password_verify($password_to_verify, substr($hash, 3));
     }
-    public static function pbkdf2($password, $encryptedPassword)
+    public static function phpass($password, $hash)
     {
-        $pbkdf2 = new PBKDF2PasswordHasher();
-        return $pbkdf2->validate($password, $encryptedPassword);
+        return PHPass::phpass_validation($password, $hash);
+    }
+    public static function pbkdf2($password, $hash)
+    {
+        return (new PBKDF2PasswordHasher())->validate($password, $hash);
     }
 }

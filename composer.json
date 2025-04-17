@@ -7,14 +7,16 @@
     "require": {
         "php": "^8.3",
         "ext-mbstring": "*",
-        "microwin7/php-utils": "^1.6.0.4"
+        "microwin7/php-utils": "^1.8.0.0"
     },
     "autoload": {
         "psr-4": {
             "Microwin7\\PasswordVerifier\\": "src/",
-            "Microwin7\\PHPUtils\\Configs\\": "config/",
             "Hashers\\": "library/Hashers/"
-        }
+        },
+        "files": [
+            "src/AutoLoads/InitENV.php"
+        ]
     },
     "authors": [
         {
